@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hey Alex, I hope this is sufficient!</h1>
+    <div id="div1"></div><br>
+    <div id="div2"></div><br>
+    <div id="div3"></div>
+    <script>
+        fetch("example1.json")
+            .then(response => response.json())
+            .then(data => { 
+                document.querySelector("#div1").innerText = data.Example
+                document.querySelector("#div2").innerText = data.Other
+                document.querySelector("#div3").innerText = data.Another_Ex
+            })
+    </script>
+</body>
+</html>
