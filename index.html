@@ -1,21 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Document</title>
+	<title>Document</title>
 </head>
+
 <body>
-    <h1>Hey Alex, I hope this is sufficient!</h1>
-    <div id="div1"></div><br>
-    <div id="div2"></div><br>
-    <div id="div3"></div>
-    <script>
-        fetch("example1.json")
-            .then(response => response.json())
-            .then(data => { 
-                document.querySelector("#div1").innerText = data.Example
-                document.querySelector("#div2").innerText = data.Other
-                document.querySelector("#div3").innerText = data.Another_Ex
-            })
-    </script>
+	<div id="input"></div><br>
+	<div id="result"></div>
 </body>
+
+<script>
+	document.getElementById("input").innerHTML = `[{"Example":"Some information"}, {"Another": [{"nested1": "nested1 content"},{"nested2": [{"nested2": "2"}, {"nested3": "3"}]}]}, {"Another": "Another div"}]`;
+	let jOb = JSON.parse(document.getElementById("input").innerHTML);
+
+	convertJsonToHtml(document.getElementById("result"), jOb);
+
+	function convertJsonToHtml(parent, jsonObject) {
+		//loop through top level elements
+        //assuming there is only one key per object
+		for (var element of jsonObject) {
+			var entry = Object.entries(element)[0];
+			if (typeof entry[1] === "string") {
+				var newElement = document.createElement("div");
+				newElement.id = entry[0];
+				newElement.innerHTML = entry[1];
+				parent.appendChild(newElement)
+			}
+			else {
+				var newElement = document.createElement("div");
+				newElement.id = entry[0];
+				convertJsonToHtml(newElement, entry[1])
+				parent.appendChild(newElement)
+			}
+		}
+	}
+</script>
 </html>
